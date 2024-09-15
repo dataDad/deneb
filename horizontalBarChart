@@ -1,0 +1,96 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "padding": {"left": 10, "top": 10, "right": 15, "bottom": 10},
+  "data": {
+    "name": "dataset",
+    "values": [
+      {
+        "Bing Display ": 30, "Bing Search ": 50, "Facebook  ": 20, 
+        "Facebook Lead Gen": 10, "Facebook Video": 5, "Geofencing": 15, 
+        "Google Discovery": 25, "Google Display": 35, "Google Search": 20, "Instagram ": 30,
+        "Nextdoor ": 30, "Google Performance Max": 40, "Spotify": 40
+      }
+    ]
+  },
+  "transform": [
+    {
+      "fold": ["Bing Display ", "Facebook ", "Bing Search ", "Facebook Lead Gen", 
+               "Facebook Video", "Geofencing", "Google Discovery", "Google Display", 
+               "Google Search", "Instagram ", "Nextdoor ", "Google Performance Max", "Spotify"],
+      "as": ["Measure", "Value"]
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "Measure",
+      "type": "nominal",
+      "title": null,  // Remove the y-axis title
+      "axis": {
+        "domain": false,  // Disable the y-axis line
+        "ticks": false ,   // Remove the ticks on the y-axis
+        "labelPadding": 10,
+        "labelFontSize": 13,
+        "labelLimit": 140,
+        "labelFont": "Arial"
+      }
+    },
+    "x": {
+      "field": "Value",
+      "type": "quantitative",
+      "title": "Impressions",
+      "stack": "zero",
+      "axis": null
+    },
+    "tooltip": [
+      {"field": "Measure", "type": "nominal", "title": "Measure"},
+      {
+        "field": "Value",
+        "type": "quantitative",
+        "title": "Value",
+        "format": ",d"  // Format the value with commas
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "orient": "horizontal",
+        "color": "#1f77b4"  // Set a single color for all bars
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 3,  // Adjust the label's positioning
+        "color": "#1f77b4"  // Set the same color for the data labels
+      },
+      "encoding": {
+        "text": {
+          "field": "Value",
+          "type": "quantitative",
+          "format": ",d"  // Format with commas for data labels as well
+        },
+        "x": {
+          "field": "Value",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "Measure",
+          "type": "nominal"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "axis": {
+      "grid": false  // Globally disable gridlines for all axes
+    },
+    "legend": {
+      "disable": true  // Disable the legend
+    }
+  }
+}
