@@ -7,7 +7,7 @@
       {
         "Bing Display ": 30, "Bing Search ": 50, "Facebook  ": 20, 
         "Facebook Lead Gen": 10, "Facebook Video": 5, "Geofencing": 15, 
-        "Google Discovery": 25, "Google Display": 35, "Google Search": 20, "Instagram ": 30,
+        "Google Discovery": 25, "Google Display": 35, "Google Search": 20, "Google Video": 20,"Instagram ": 30,
         "Nextdoor ": 30, "Google Performance Max": 40, "Spotify": 40
       }
     ]
@@ -16,18 +16,30 @@
     {
       "fold": ["Bing Display ", "Facebook ", "Bing Search ", "Facebook Lead Gen", 
                "Facebook Video", "Geofencing", "Google Discovery", "Google Display", 
-               "Google Search", "Instagram ", "Nextdoor ", "Google Performance Max", "Spotify"],
+               "Google Search", "Google Video","Instagram ", "Nextdoor ", "Google Performance Max", "Spotify"],
       "as": ["Measure", "Value"]
+    },
+    {
+      "window": [{"op": "sum", "field": "Value", "as": "TotalValue"}],  // Calculate the total
+      "frame": [null, null]
+    },
+    {
+      "calculate": "datum.Value / datum.TotalValue * 100",  // Compute the percentage
+      "as": "Percent"
+    },
+    {
+      "calculate": "format(datum.Percent, '.1f') + '%'",  // Add '%' symbol to the percentage
+      "as": "PercentWithSymbol"
     }
   ],
   "encoding": {
     "y": {
       "field": "Measure",
       "type": "nominal",
-      "title": null,  // Remove the y-axis title
+      "title": null,
       "axis": {
-        "domain": false,  // Disable the y-axis line
-        "ticks": false ,   // Remove the ticks on the y-axis
+        "domain": false,
+        "ticks": true,
         "labelPadding": 10,
         "labelFontSize": 13,
         "labelLimit": 140,
@@ -47,7 +59,12 @@
         "field": "Value",
         "type": "quantitative",
         "title": "Value",
-        "format": ",d"  // Format the value with commas
+        "format": ",d"
+      },
+      {
+        "field": "PercentWithSymbol",  // Use the new field with the '%' symbol
+        "type": "nominal",
+        "title": "Percentage of All Impressions:"
       }
     ]
   },
@@ -55,8 +72,19 @@
     {
       "mark": {
         "type": "bar",
-        "orient": "horizontal",
-        "color": "#1f77b4"  // Set a single color for all bars
+        "orient": "horizontal"
+      },
+      "encoding": {
+        "color": {
+          "field": "Measure",  // Color based on the Measure field
+          "type": "nominal",
+          "scale": {
+            "range": ["#00437b", "#F37021", "#FDB515", "#789904", "#C4D4A4", "#6DB6F4", 
+                      "#FDDD15", "#FAC9AC", "#3599B8", "#DFBFBF", "#4AC5BB", "#5F6B6D", 
+                      "#FB8281", "#F4D25A"]  // Custom color palette
+          },
+          "legend": null  // Hide the color legend if not needed
+        }
       }
     },
     {
@@ -64,14 +92,15 @@
         "type": "text",
         "align": "left",
         "baseline": "middle",
-        "dx": 3,  // Adjust the label's positioning
-        "color": "#1f77b4"  // Set the same color for the data labels
+        "dx": 3,
+        "color": "black",
+        "fontSize": 14  // Increase font size for clarity
       },
       "encoding": {
         "text": {
-          "field": "Value",
-          "type": "quantitative",
-          "format": ",d"  // Format with commas for data labels as well
+          "type": "nominal",
+          "field": "label",  // Use a custom label combining value and percentage
+          "aggregate": null  // Ensure no aggregation is applied
         },
         "x": {
           "field": "Value",
@@ -81,16 +110,22 @@
           "field": "Measure",
           "type": "nominal"
         }
-      }
+      },
+      "transform": [
+        {
+          "calculate": "'' + format(datum.Value, ',d') + ' (' + format(datum.Percent, '.1f') + '%)'",
+          "as": "label"
+        }
+      ]
     }
   ],
   "config": {
     "view": {"stroke": null},
     "axis": {
-      "grid": false  // Globally disable gridlines for all axes
+      "grid": false
     },
     "legend": {
-      "disable": true  // Disable the legend
+      "disable": true
     }
   }
 }
