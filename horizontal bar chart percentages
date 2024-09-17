@@ -1,0 +1,118 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "padding": {"left": 10, "top": 10, "right": 15, "bottom": 10},
+  "data": {
+    "name": "dataset",
+    "values": [
+      {
+        "Bing Display   ": 10, "Bing Search  ": 50, "Facebook  ": 20, 
+        "Facebook Lead Gen": 10, "Facebook Video": 5, "Geofencing": 15, 
+        "Google Discovery": 25, "Google Display": 35, "Google Search": null, "Instagram": 30,
+        "Nextdoor ": 30, "Google Performance Max": 40, "Spotify": 40, "Google Video": 30
+      }
+    ]
+  },
+  "transform": [
+    {
+      "fold": ["Bing Display  ", "Facebook  ", "Bing Search  ", "Facebook Lead Gen", 
+               "Facebook Video", "Geofencing", "Google Discovery", "Google Display", "Google Video", 
+               "Google Search", "Instagram", "Nextdoor ", "Google Performance Max", "Spotify"],
+      "as": ["Measure", "Value"]
+    },
+    {
+      "filter": "datum.Value != null && datum.Value > 0"
+    },
+    {
+      "calculate": "datum.Value * 100",  // Multiply Value by 100
+      "as": "Percentage"
+    },
+    {
+      "calculate": "format(datum.Percentage, '.2f') + '%'",  // Format to two decimal places and add %
+      "as": "PercentageLabel"
+    }
+  ],
+  "encoding": {
+    "y": {
+      "field": "Measure",
+      "type": "nominal",
+      "title": null,
+      "axis": {
+        "domain": false,
+        "ticks": false,
+        "labelPadding": 10,
+        "labelFontSize": 13,
+        "labelLimit": 200,
+        "labelFont": "Arial",
+        "labelColor":"black"
+      }
+    },
+    "x": {
+      "field": "Percentage",  // Use the new Percentage field
+      "type": "quantitative",
+      "title": null,  // No title for the x-axis
+      "axis": null  // Turn off the x-axis
+    },
+    "color": {
+      "field": "Measure",  // Color based on the Measure field
+      "type": "nominal",
+      "scale": {
+        "range": ["#00437b", "#F37021", "#FDB515", "#789904", "#C4D4A4", "#6DB6F4", 
+                  "#FDDD15", "#FAC9AC", "#3599B8", "#DFBFBF", "#4AC5BB", "#5F6B6D", 
+                  "#FB8281", "#F4D25A"]  // Custom color palette
+      },
+      "legend": null  // Hide the color legend if not needed
+    },
+    "tooltip": [
+      {"field": "Measure", "type": "nominal", "title": "Measure"},
+      {
+        "field": "PercentageLabel",  // Use the formatted PercentageLabel field in the tooltip
+        "type": "nominal",
+        "title": "Click Through Rate"
+      }
+    ]
+  },
+  "layer": [
+    {
+      "mark": {
+        "type": "bar",
+        "orient": "horizontal"
+      }
+    },
+    {
+      "mark": {
+        "type": "text",
+        "align": "left",
+        "baseline": "middle",
+        "dx": 3,
+        "color": "black",
+        "fontSize": 14  // Increase font size for better clarity
+      },
+      "encoding": {
+        "text": {
+          "field": "PercentageLabel",  // Use the PercentageLabel field to display % symbol
+          "type": "nominal"
+        },
+        "x": {
+          "field": "Percentage",
+          "type": "quantitative"
+        },
+        "y": {
+          "field": "Measure",
+          "type": "nominal"
+        },
+        "color": {  // Ensure color of text stays black
+          "value": "black"
+        }
+      }
+    }
+  ],
+  "config": {
+    "view": {"stroke": null},
+    "axis": {
+      "grid": false
+    },
+    "legend": {
+      "disable": true
+    }
+  }
+}
