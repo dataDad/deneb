@@ -108,7 +108,8 @@
         {
           "mark": {
             "type": "bar",
-            "cornerRadiusEnd": 2
+            "cornerRadiusEnd": 2,
+            "size": 10
           },
           "encoding": {
             "y": {
@@ -119,6 +120,9 @@
             "x": {
               "field": "Net Worth Ratio Δ",
               "type": "quantitative",
+              "scale": {
+                "domain": {"unionWith": [0]}
+              },
               "axis": {
                 "title": "Net Worth Ratio Δ",
                 "grid": false,
@@ -128,18 +132,49 @@
             "color": {
               "condition": {
                 "test": "datum['Net Worth Ratio Δ'] >= 0",
-                "value": "#2AA198"
+                "value": "#1f4788"
               },
               "value": "#DC322F"
             }
           }
         },
         {
+          "transform": [
+            {"filter": "datum['Net Worth Ratio Δ'] >= 0"}
+          ],
           "mark": {
             "type": "text",
             "align": "left",
             "baseline": "middle",
             "dx": 3,
+            "fontSize": 9,
+            "color": "#000000"
+          },
+          "encoding": {
+            "y": {
+              "field": "Branch",
+              "type": "ordinal"
+            },
+            "x": {
+              "field": "Net Worth Ratio Δ",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "Net Worth Ratio Δ",
+              "type": "quantitative",
+              "format": "+.1%"
+            }
+          }
+        },
+        {
+          "transform": [
+            {"filter": "datum['Net Worth Ratio Δ'] < 0"}
+          ],
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "baseline": "middle",
+            "dx": -3,
             "fontSize": 9,
             "color": "#000000"
           },
@@ -173,7 +208,8 @@
         {
           "mark": {
             "type": "bar",
-            "cornerRadiusEnd": 2
+            "cornerRadiusEnd": 2,
+            "size": 10
           },
           "encoding": {
             "y": {
@@ -184,6 +220,9 @@
             "x": {
               "field": "Net Worth Ratio Δ%",
               "type": "quantitative",
+              "scale": {
+                "domain": {"unionWith": [0]}
+              },
               "axis": {
                 "title": "Net Worth Ratio Δ%",
                 "format": "+.0%",
@@ -193,18 +232,49 @@
             "color": {
               "condition": {
                 "test": "datum['Net Worth Ratio Δ%'] >= 0",
-                "value": "#2AA198"
+                "value": "#1f4788"
               },
               "value": "#DC322F"
             }
           }
         },
         {
+          "transform": [
+            {"filter": "datum['Net Worth Ratio Δ%'] >= 0"}
+          ],
           "mark": {
             "type": "text",
             "align": "left",
             "baseline": "middle",
             "dx": 3,
+            "fontSize": 9,
+            "color": "#000000"
+          },
+          "encoding": {
+            "y": {
+              "field": "Branch",
+              "type": "ordinal"
+            },
+            "x": {
+              "field": "Net Worth Ratio Δ%",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "Net Worth Ratio Δ%",
+              "type": "quantitative",
+              "format": "+.0%"
+            }
+          }
+        },
+        {
+          "transform": [
+            {"filter": "datum['Net Worth Ratio Δ%'] < 0"}
+          ],
+          "mark": {
+            "type": "text",
+            "align": "right",
+            "baseline": "middle",
+            "dx": -3,
             "fontSize": 9,
             "color": "#000000"
           },
