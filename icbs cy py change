@@ -1,0 +1,235 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data": { "name": "dataset" },
+
+  "resolve": {
+    "scale": {
+      "y": "shared"
+    }
+  },
+
+  "hconcat": [
+
+    /* ============================
+       PRIOR YEAR vs CURRENT YEAR
+       ============================ */
+    {
+      "width": 320,
+      "height": { "step": 28 },
+
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "color": "#D0D0D0",
+            "cornerRadiusEnd": 2,
+            "size": 14
+          },
+          "encoding": {
+            "y": {
+              "field": "Branch",
+              "type": "ordinal",
+              "sort": {
+                "field": "Net Worth Ratio Current Year",
+                "order": "descending"
+              },
+              "axis": {
+                "title": null,
+                "ticks": false,
+                "domain": false,
+                "labelPadding": 4
+              }
+            },
+            "x": {
+              "field": "Net Worth Ratio Prior Year",
+              "type": "quantitative",
+              "axis": {
+                "title": "Net Worth Ratio",
+                "grid": false,
+                "format": ".0%"
+              }
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "bar",
+            "color": "#2AA198",
+            "cornerRadiusEnd": 2,
+            "size": 10
+          },
+          "encoding": {
+            "y": {
+              "field": "Branch",
+              "type": "ordinal"
+            },
+            "x": {
+              "field": "Net Worth Ratio Current Year",
+              "type": "quantitative"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "dx": 3,
+            "fontSize": 9,
+            "color": "#2AA198"
+          },
+          "encoding": {
+            "y": {
+              "field": "Branch",
+              "type": "ordinal"
+            },
+            "x": {
+              "field": "Net Worth Ratio Current Year",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "Net Worth Ratio Current Year",
+              "type": "quantitative",
+              "format": ".1%"
+            }
+          }
+        }
+      ]
+    },
+
+    /* ============================
+       DELTA
+       ============================ */
+    {
+      "width": 220,
+      "height": { "step": 28 },
+
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "cornerRadiusEnd": 2
+          },
+          "encoding": {
+            "y": {
+              "field": "Branch",
+              "type": "ordinal",
+              "axis": null
+            },
+            "x": {
+              "field": "Net Worth Ratio Δ",
+              "type": "quantitative",
+              "axis": {
+                "title": "Net Worth Ratio Δ",
+                "grid": false,
+                "format": "+.1%"
+              }
+            },
+            "color": {
+              "condition": {
+                "test": "datum['Net Worth Ratio Δ'] >= 0",
+                "value": "#2AA198"
+              },
+              "value": "#DC322F"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "dx": 3,
+            "fontSize": 9,
+            "color": "#000000"
+          },
+          "encoding": {
+            "y": {
+              "field": "Branch",
+              "type": "ordinal"
+            },
+            "x": {
+              "field": "Net Worth Ratio Δ",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "Net Worth Ratio Δ",
+              "type": "quantitative",
+              "format": "+.1%"
+            }
+          }
+        }
+      ]
+    },
+
+    /* ============================
+       DELTA %
+       ============================ */
+    {
+      "width": 220,
+      "height": { "step": 28 },
+
+      "layer": [
+        {
+          "mark": {
+            "type": "bar",
+            "cornerRadiusEnd": 2
+          },
+          "encoding": {
+            "y": {
+              "field": "Branch",
+              "type": "ordinal",
+              "axis": null
+            },
+            "x": {
+              "field": "Net Worth Ratio Δ%",
+              "type": "quantitative",
+              "axis": {
+                "title": "Net Worth Ratio Δ%",
+                "format": "+.0%",
+                "grid": false
+              }
+            },
+            "color": {
+              "condition": {
+                "test": "datum['Net Worth Ratio Δ%'] >= 0",
+                "value": "#2AA198"
+              },
+              "value": "#DC322F"
+            }
+          }
+        },
+        {
+          "mark": {
+            "type": "text",
+            "align": "left",
+            "baseline": "middle",
+            "dx": 3,
+            "fontSize": 9,
+            "color": "#000000"
+          },
+          "encoding": {
+            "y": {
+              "field": "Branch",
+              "type": "ordinal"
+            },
+            "x": {
+              "field": "Net Worth Ratio Δ%",
+              "type": "quantitative"
+            },
+            "text": {
+              "field": "Net Worth Ratio Δ%",
+              "type": "quantitative",
+              "format": "+.0%"
+            }
+          }
+        }
+      ]
+    }
+  ],
+
+  "config": {
+    "view": { "stroke": null },
+    "concat": { "spacing": 30 }
+  }
+}
